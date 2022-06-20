@@ -49,9 +49,25 @@ const addStudent = async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 };
+const getStudentByfirstName = async (req, res) => {
+  try {
+    const { firstName } = req.body;
+    let students = await Students.where("firstName", "==", firstName).get();
+    students = students.docs?.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    res.status(200).send(students);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
 
 module.exports = {
   getStudents,
   getStudentById,
+  getStudentByfirstName,
   addStudent,
 };
