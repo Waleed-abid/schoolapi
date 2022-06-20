@@ -28,8 +28,30 @@ const getStudentById = async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 };
+const addStudent = async (req, res) => {
+  const { Student } = req.body;
+  try {
+    if (!Student) {
+      return res.status(404).send({ message: "Please Enter Student Details" });
+    }
+    const newStudent = {
+      firstName: Student?.firstName ?? "",
+      lastName: Student?.lastName ?? "",
+      age: Student?.age ?? "",
+      email: Student?.email ?? "",
+      dob: Student?.dob ?? "", //date of birth
+      doe: Student?.doe ?? "", // date of Enrollement
+      session: Student?.session ?? "", //enrollment session
+    };
+    await Students.add(newStudent);
+    res.status(201).send({ message: "Student added successfully" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
 
 module.exports = {
   getStudents,
   getStudentById,
+  addStudent,
 };
