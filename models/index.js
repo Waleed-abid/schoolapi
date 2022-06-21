@@ -1,8 +1,11 @@
-const { db } = require("../config")
+const { db } = require("../config");
 
-const Students = db.collection("students")
-
-
-module.exports= {
-    Students
-}
+const Students = db.collection("students");
+const StudentCourses = (studentId) =>
+  db.collection(`students/${studentId}/courses`);
+const Courses = db.collection("courses");
+module.exports = {
+  Students,
+  StudentCourses,
+  Courses,
+};
