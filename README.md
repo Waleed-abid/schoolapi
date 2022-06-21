@@ -7,11 +7,6 @@ It also has a nested courses route which allows us to read create delete courses
 Some Endpoints are:
 
 For Students:
- 
-
-
- 
-
 | Command | Description |
 | --- | --- |
 | @GET |  /getAllStudents |
@@ -21,6 +16,7 @@ For Students:
 | @DELETE  | /deleteStudent |
 
 For Courses:
+| Command | Description |
 | --- | --- |
 | @GET All |  /getAllCourses |
 | @GET  | /getCourseById |
