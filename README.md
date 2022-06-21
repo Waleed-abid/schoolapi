@@ -24,6 +24,9 @@ For Courses:
 | @POST Multiple | /addMultipleCourse |
 | @PUT | /updateCourse |
 | @DELETE  | /deleteCourse |
+
+
+
 Some Student courses endpoints are still under development and will be update soon. Same wit the Teacher Routes.
 To the run the API please use these commands 
 ```npm install``` 
