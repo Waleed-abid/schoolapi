@@ -4,7 +4,7 @@ This a basic CRUD school api in which you can add Students delete students updat
 
 It also has a nested courses route which allows us to read create delete courses for students, It first checks if the course exists in courses collection and if it does it adds it to students courses collection inside a student. It also has a Authentication for students admin and teachers so that not every student can add courses to other students. Similarly with the teachers. Admin will have all the functionality avaliable to him, He can create remove update and delete courses, Students and teachers.
 
-#Some Endpoints are:
+Some Endpoints are:
 
 For Students:
 @GET /getAllStudents
@@ -22,4 +22,6 @@ For Courses:
 @PUT /updateCourse
 @DELETE /deleteCourse
 
-#Some Student courses endpoints are still under development and will be update soon. Same wit the Teacher Routes.
+Some Student courses endpoints are still under development and will be update soon. Same wit the Teacher Routes.
+To the run the API please use this command first >npm install 
+After that use >npm run dev
