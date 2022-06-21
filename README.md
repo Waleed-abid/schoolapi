@@ -26,7 +26,7 @@ Some Student courses endpoints are still under development and will be update so
 To the run the API please use these commands 
 ```npm install``` 
 >Before running the Application, You are required to go to the firebase console and download your serviceAccount key. You can download it by heading to firebase console > Project Settings > Service Account > Create New Service Key > then paste it in Config folder and rename it to ServiceAccount.json after that create an index.js file and write the following code in it
->```var admin = require("firebase-admin");
+```var admin = require("firebase-admin");
 const {getFirestore} = require("firebase-admin/firestore")
 
 var serviceAccount = require("./serviceAccount.json");
