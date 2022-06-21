@@ -28,6 +28,23 @@ const getStudentById = async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 };
+
+const getStudentByfirstName = async (req, res) => {
+  try {
+    const { firstName } = req.body;
+    let students = await Students.where("firstName", "==", firstName).get();
+    students = students.docs?.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    res.status(200).send(students);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
 const addStudent = async (req, res) => {
   const { Student } = req.body;
   try {
@@ -49,20 +66,30 @@ const addStudent = async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 };
-const getStudentByfirstName = async (req, res) => {
+
+const updateStudent = async (req, res) => {
+  const { studentId } = req.query;
+  const { Student } = req.body;
   try {
-    const { firstName } = req.body;
-    let students = await Students.where("firstName", "==", firstName).get();
-    students = students.docs?.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
-    res.status(200).send(students);
+    let student = await Student.doc(studentId).get();
+    if (!student) {
+      return res.status(404).send({ message: "Student not found" });
+    }
+    await Student.update(student);
+    res.status(200).send({ message: "Student updated successfully" });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
+};
+
+const deleteStudent = async (req, res) => {
+  const { studentId } = req.query;
+  const student = await Students.doc(studentId).get();
+  if (student.exists) {
+    await Students.doc(student.id).delete();
+    return res.status(200).send({ message: "Student deleted successfully" });
+  }
+  res.status(404).send({ message: "Student not found" });
 };
 
 module.exports = {
@@ -70,4 +97,6 @@ module.exports = {
   getStudentById,
   getStudentByfirstName,
   addStudent,
+  updateStudent,
+  deleteStudent,
 };
