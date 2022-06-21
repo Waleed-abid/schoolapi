@@ -23,7 +23,6 @@ For Courses:
 @DELETE /deleteCourse
 
 Some Student courses endpoints are still under development and will be update soon. Same wit the Teacher Routes.
-To the run the API please use this command first
-> -npm install 
-After that use
-> -npm run dev
+To the run the API please use these commands 
+```npm install``` 
+> npm run dev
