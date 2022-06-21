@@ -7,12 +7,18 @@ It also has a nested courses route which allows us to read create delete courses
 Some Endpoints are:
 
 For Students:
-@GET /getAllStudents
-@GET All /getStudentById
-@GET firstName /getStudentByFirstName
-@POST /addStudent
-@PUT /updateStudent
-@DELETE /deleteStudent
+ 
+
+
+ 
+
+| Command | Description |
+| --- | --- |
+| @GET |  /getAllStudents |
+| @GET firstName  | /getStudentByFirstName |
+| @POST  | /addStudent |
+| @PUT | /updateStudent |
+| @DELETE  | /deleteStudent |
 
 For Courses:
 @GET /getAllCourses
@@ -26,7 +32,6 @@ For Courses:
 | git status | List all new or modified files |
 | git diff | Show file differences that haven't been staged |
 
-| --- | --- |
 Some Student courses endpoints are still under development and will be update soon. Same wit the Teacher Routes.
 To the run the API please use these commands 
 ```npm install``` 
