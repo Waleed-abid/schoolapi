@@ -21,17 +21,13 @@ For Students:
 | @DELETE  | /deleteStudent |
 
 For Courses:
-@GET /getAllCourses
-@GET All /getCourseById
-@POST /addCourse
-@POST Multiple /addMultipleCourse
-@PUT /updateCourse
-@DELETE /deleteCourse
-| Command | Description |
 | --- | --- |
-| git status | List all new or modified files |
-| git diff | Show file differences that haven't been staged |
-
+| @GET All |  /getAllCourses |
+| @GET  | /getCourseById |
+| @POST  | /addCourse |
+| @POST Multiple | /addMultipleCourse |
+| @PUT | /updateCourse |
+| @DELETE  | /deleteCourse |
 Some Student courses endpoints are still under development and will be update soon. Same wit the Teacher Routes.
 To the run the API please use these commands 
 ```npm install``` 
