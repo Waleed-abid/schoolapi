@@ -40,4 +40,5 @@ module.exports = {
     db
 }
 ```
+After doing that Run the following Command
 ```npm run dev```
