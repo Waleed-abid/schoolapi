@@ -1,5 +1,6 @@
 const { Courses } = require("../models");
 const _ = require("lodash");
+const { db } = require("../config");
 
 const getAllCourses = async (req, res) => {
   try {
@@ -51,22 +52,24 @@ const addCourse = async (req, res) => {
 const addMultipleCourse = async (req, res) => {
   const { courses } = req.body;
   try {
-    courses.forEach((course) => {
-      let newCourse = {
+    let batch = db.batch();
+    courses?.filter((course) => {
+      batch.set(Courses.doc(`${course?.courseId}`), {
         courseName: course?.courseName ?? "",
         courseTeacher: course?.courseTeacher ?? "",
         courseAssistantTeacher: course?.courseAssistantTeacher ?? "",
         courseId: course?.courseId ?? "",
-      };
-      Courses.doc(`${course?.courseId}`).set(newCourse);
+      });
     });
+    await batch.commit();
+
     res.status(201).send({ message: "Courses added successfully" });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 };
 
-const updateCourse = async (req, res, next) => {
+const updateCourse = async (req, res) => {
   try {
     const { courseId } = req.query;
     const { course } = req.body;

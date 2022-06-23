@@ -1,3 +1,4 @@
+const { db } = require("../config");
 const { Students, StudentCourses } = require("../models");
 
 const getStudents = async (req, res) => {
@@ -122,6 +123,83 @@ const addStudentCourse = async (req, res) => {
   }
 };
 
+const addManyStudentCourse = async (req, res) => {
+  const { studentId } = req.query;
+  const { courses } = req.body;
+  try {
+    courses.forEach((course) => {
+      let newCourse = {
+        courseName: course?.courseName ?? "",
+        courseId: course?.courseId ?? "",
+        courseTeacher: course?.courseTeacher ?? "",
+        coureseAssistantTeacher: course?.coureseAssistantTeacher ?? "",
+      };
+      StudentCourses(studentId).doc(`${course.courseId}`).set(newCourse);
+    });
+    res.status(201).send({ message: "Courses successfully added to students" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
+const searchById = async (req, res) => {
+  const { studentId, courseId } = req.query;
+  try {
+    let course = await StudentCourses(studentId)
+      .where("courseId", "==", courseId)
+      .get();
+    course = course.docs?.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    res.status(200).send({ course: course });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
+const updateCourse = async (req, res) => {
+  const { studentId, courseId } = req.query;
+  const { course } = req.body;
+  try {
+    if (!studentId && !courseId) {
+      return res
+        .status(404)
+        .send({ message: "Student Id and course Id cannot be empty" });
+    }
+    if (!course) {
+      return res.status(404).send({ message: "Course Cannot be empty" });
+    }
+    if (Object.keys(course).length == 0) {
+      return res.status(404).send({ message: "Course Cannot be empty" });
+    }
+    const courseRef = await StudentCourses(studentId).doc(courseId).get();
+    if (courseRef.exists) {
+      await StudentCourses(studentId).doc(courseId).update(course);
+      return res.status(200).send({ message: "Course Updated successfully" });
+    }
+    res.status(404).send({ message: "Course Not Found" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
+const deleteStudentCourse = async (req, res) => {
+  const { studentId, courseId } = req.query;
+  try {
+    const courseRef = await StudentCourses(studentId).doc(courseId).get();
+    if (courseRef.exists) {
+      await StudentCourses(studentId).doc(courseId).delete();
+      return res.status(200).send({ message: "Course deleted successfully" });
+    }
+    res.status(404).send({ message: "Course Not Found" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
 module.exports = {
   getStudents,
   getStudentById,
@@ -131,4 +209,8 @@ module.exports = {
   deleteStudent,
   getAllStudentCourses,
   addStudentCourse,
+  searchById,
+  updateCourse,
+  deleteStudentCourse,
+  addManyStudentCourse,
 };
