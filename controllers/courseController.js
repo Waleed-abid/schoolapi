@@ -1,4 +1,5 @@
 const { Courses } = require("../models");
+const _ = require("lodash");
 
 const getAllCourses = async (req, res) => {
   try {
