@@ -25,6 +25,17 @@ For Courses:
 | @PUT | /updateCourse |
 | @DELETE | /deleteCourse |
 
+
+For Teachers:
+| HTTP Method | Endpoint |
+| --- | --- |
+| @GET All | /getAllTeachers |
+| @GET | /getTeacherById |
+| @POST | /addTeacher |
+| @PUT | /updateTeacher |
+| @DELETE | /deleteTeacher |
+
+
 Some Student courses endpoints are still under development and will be update soon. Same wit the Teacher Routes.
 To the run the API please use these commands
 `npm install`
