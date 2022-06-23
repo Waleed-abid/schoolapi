@@ -1,4 +1,4 @@
-const { Students } = require("../models");
+const { Students, StudentCourses } = require("../models");
 
 const getStudents = async (req, res) => {
   try {
@@ -92,6 +92,36 @@ const deleteStudent = async (req, res) => {
   res.status(404).send({ message: "Student not found" });
 };
 
+// Student courses routes
+
+const getAllStudentCourses = async (req, res) => {
+  const { studentId } = req.query;
+  try {
+    let courses = [];
+    if (!studentId) {
+      return res.status(404).send({ message: "Student id cannot be empty" });
+    }
+    const studentCourses = await StudentCourses(studentId).get();
+    for (const doc of studentCourses.docs) {
+      courses.push({ id: doc.id, ...doc.data() });
+    }
+    res.status(200).send({ StudentCourses: courses });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
+const addStudentCourse = async (req, res) => {
+  const { studentId } = req.query;
+  const { Course } = req.body;
+  try {
+    await StudentCourses(studentId).doc(Course.courseId).set(Course);
+    res.status(200).send({ message: "Course added successfully!" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
 module.exports = {
   getStudents,
   getStudentById,
@@ -99,4 +129,6 @@ module.exports = {
   addStudent,
   updateStudent,
   deleteStudent,
+  getAllStudentCourses,
+  addStudentCourse,
 };

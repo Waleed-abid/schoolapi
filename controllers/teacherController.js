@@ -53,7 +53,51 @@ const addTeacher = async (req, res) => {
     };
 
     await Teacher.doc(teacher.teacherId).set(newTeacher);
-    res.status(201).send({ message: "Teacher Create successfully" });
+    res.status(201).send({ message: "Teacher Created successfully" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
+const updateTeacher = async (req, res) => {
+  const { teacherId } = req.query;
+  const { teacher } = req.body;
+  try {
+    if (!teacherId) {
+      return res.status(404).send({ message: "Teacher id cannot be empty" });
+    }
+    const teacherRef = await Teacher.doc(teacherId).get();
+    if (teacherRef.exists) {
+      const coursesTeach = [];
+      for (i = 0; i < teacher.coursesTeach.length; i++) {
+        coursesTeach.push(teacher.coursesTeach[i]);
+      }
+      const newTeacher = {
+        firstName: teacher?.firstName ?? "",
+        lastName: teacher?.lastName ?? "",
+        age: teacher?.age ?? "",
+        teacherId: teacher?.teacherId ?? "",
+        education: teacher?.education ?? "",
+        coursesTeach: coursesTeach,
+      };
+      await Teacher.doc(teacherId).update(newTeacher);
+      return res.status(200).send({ message: "Teacher Updated successfully" });
+    }
+    res.status(404).send({ message: "Teacher Not Found" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
+const deleteTeacher = async (req, res) => {
+  const { teacherId } = req.query;
+  try {
+    const teacher = await Teacher.doc(teacherId).get();
+    if (teacher.exists) {
+      await Teacher.doc(teacherId).delete();
+      return res.status(200).send({ message: "Teacher Deleted successfully" });
+    }
+    res.status(404).send({ message: "Teacher Not Found" });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
@@ -63,4 +107,6 @@ module.exports = {
   getTeachers,
   getTeacherById,
   addTeacher,
+  updateTeacher,
+  deleteTeacher,
 };
